@@ -1,0 +1,61 @@
+#!/bin/bash
+set -euo pipefail
+
+printf "\n=====================================================================================\n"
+printf "KOBITON EXECUTE TEST PLUGIN"
+printf "\n=====================================================================================\n\n"
+
+export KOBI_USERNAME="${BUILDKITE_PLUGIN_KOBITON_EXECUTE_TEST_KOBI_USERNAME:-""}"
+export KOBI_API_KEY="${BUILDKITE_PLUGIN_KOBITON_EXECUTE_TEST_KOBI_API_KEY:-""}"
+export EXECUTOR_URL="${BUILDKITE_PLUGIN_KOBITON_EXECUTE_TEST_EXECUTOR_URL:-""}"
+export EXECUTOR_USERNAME="${BUILDKITE_PLUGIN_KOBITON_EXECUTE_TEST_EXECUTOR_USERNAME:-""}"
+export EXECUTOR_PASSWORD="${BUILDKITE_PLUGIN_KOBITON_EXECUTE_TEST_EXECUTOR_PASSWORD:-""}"
+export GIT_REPO_URL="${BUILDKITE_PLUGIN_KOBITON_EXECUTE_TEST_GIT_REPO_URL:-""}"
+export GIT_REPO_BRANCH="${BUILDKITE_PLUGIN_KOBITON_EXECUTE_TEST_GIT_REPO_BRANCH:-""}"
+export GIT_REPO_SSH_KEY="${BUILDKITE_PLUGIN_KOBITON_EXECUTE_TEST_GIT_REPO_SSH_KEY:-""}"
+export APP_ID="${BUILDKITE_PLUGIN_KOBITON_EXECUTE_TEST_APP_ID:-""}"
+export USE_CUSTOM_DEVICE="${BUILDKITE_PLUGIN_KOBITON_EXECUTE_TEST_USE_CUSTOM_DEVICE:-"false"}"
+export DEVICE_NAME="${BUILDKITE_PLUGIN_KOBITON_EXECUTE_TEST_DEVICE_NAME:-""}"
+export DEVICE_PLATFORM_VERSION="${BUILDKITE_PLUGIN_KOBITON_EXECUTE_TEST_DEVICE_PLATFORM_VERSION:-""}"
+export DEVICE_PLATFORM="${BUILDKITE_PLUGIN_KOBITON_EXECUTE_TEST_DEVICE_PLATFORM:-""}"
+export ROOT_DIRECTORY="${BUILDKITE_PLUGIN_KOBITON_EXECUTE_TEST_ROOT_DIRECTORY:-"/"}"
+export COMMAND="${BUILDKITE_PLUGIN_KOBITON_EXECUTE_TEST_COMMAND:-""}"
+export WAIT_FOR_EXECUTION="${BUILDKITE_PLUGIN_KOBITON_EXECUTE_TEST_WAIT_FOR_EXECUTION:-"true"}"
+export LOG_TYPE="${BUILDKITE_PLUGIN_KOBITON_EXECUTE_TEST_LOG_TYPE:-"combined"}"
+
+
+case "$OSTYPE" in
+  linux*)
+    export AGENT_OS_NAME=linux
+    ;;
+  darwin*)
+    export AGENT_OS_NAME=darwin
+    ;;
+  msys*)
+    export AGENT_OS_NAME=windows
+    ;;
+  cygwin*)
+    export AGENT_OS_NAME=windows
+    ;;
+  *)
+    export AGENT_OS_NAME=notset
+    ;;
+esac
+
+echo "$AGENT_OS_NAME"
+
+plugin=${BUILDKITE_PLUGINS:-""}
+version=$(echo $plugin | sed -e 's/.*kobiton-execute-test-buildkite-plugin//' -e 's/\".*//')
+repo="https://github.com/kobiton/kobiton-execute-test-buildkite-plugin"
+executable="app_${AGENT_OS_NAME}"
+
+if [ -z ${version} ]; then
+  url=${repo}/releases/latest/download/${executable}
+else
+  url=${repo}/releases/download/${version:1}/${executable}
+fi
+
+echo ${url}
+curl -Lf -o ${executable} $url && chmod +x ${executable}
+
+./${executable}

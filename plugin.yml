@@ -1,0 +1,41 @@
+name: Kobiton Execute Test
+description: A Buildkite Plugin to (synchronously) execute an automated test script on Kobiton service
+author: https://github.com/kobiton
+requirements: []
+configuration:
+  properties:
+    kobi-username:
+      type: string
+    kobi-api-key:
+      type: string
+    executor-url:
+      type: string
+    executor-username:
+      type: string
+    executor-password:
+      type: string
+    git-repo-url:
+      type: string
+    git-repo-branch:
+      type: string
+    git-repo-ssh-key:
+      type: string
+    app-id:
+      type: string
+    root-directory:
+      type: string
+    command:
+      type: string
+    device-name:
+      type: string
+    device-platform-version:
+      type: string
+    use-custom-device:
+      type: string
+    device-platform:
+      type: string
+    wait-for-execution:
+      type: string
+    log-type:
+      type: string
+  additionalProperties: false
