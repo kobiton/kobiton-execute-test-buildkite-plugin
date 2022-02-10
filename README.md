@@ -10,7 +10,7 @@ Add the following to your `pipeline.yml`:
 steps:
   - label: "Kobiton Execute Test"
     plugins:
-      - Nhattd97/kobiton-execute-test#v1.0.0:
+      - kobiton/kobiton-execute-test#v1.0.0:
            kobi-username: 'your kobiton username'
            kobi-api-key: "your kobiton api key"
            executor-url: 'https://executor-demo.kobiton.com'
