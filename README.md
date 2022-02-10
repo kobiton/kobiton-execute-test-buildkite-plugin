@@ -10,7 +10,7 @@ Add the following to your `pipeline.yml`:
 steps:
   - label: "Kobiton Execute Test"
     plugins:
-      - kobiton/kobiton-execute-test#v1.0.0:
+      - Nhattd97/kobiton-execute-test#v1.0.0:
            kobi-username: 'your kobiton username'
            kobi-api-key: "your kobiton api key"
            executor-url: 'https://executor-demo.kobiton.com'
@@ -112,6 +112,16 @@ To validate the `plugin.yml`:
 ```shell
 docker-compose run --rm lint
 ```
+
+To build binary apps, use the script `scripts/build-atifacts.sh`.
+
+## Release
+
+When have a new version:
+
+1. Execute build scripts to generate binary apps.
+2. Create a new tag
+3. Create a new release with that tag and Upload binary apps to the release
 
 ## Contributing
 
