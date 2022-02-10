@@ -113,6 +113,16 @@ To validate the `plugin.yml`:
 docker-compose run --rm lint
 ```
 
+To build binary apps, use the script `scripts/build-atifacts.sh`.
+
+## Release
+
+When have a new version:
+
+1. Execute build scripts to generate binary apps.
+2. Create a new tag
+3. Create a new release with that tag and Upload binary apps to the release
+
 ## Contributing
 
 1. Fork the repo
